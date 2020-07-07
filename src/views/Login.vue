@@ -17,7 +17,7 @@
             <label for="password1">Hasło</label>
             <input v-model.trim="loginForm.password" type="password" placeholder="******" id="password1" />
           </div>
-          <button @click="login()" class="button">Zaloguj się</button>
+          <button @click="login()" class="button" color="indigo">Zaloguj się</button>
           <div class="extras">
             <a @click="togglePasswordReset()">Reset hasła</a>
             <a @click="toggleForm()">Nowe konto</a>
@@ -50,6 +50,7 @@
     </section>
   </div>
 </template>
+
 
 <script>
 import PasswordReset from '@/components/PasswordReset'
