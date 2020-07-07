@@ -46,7 +46,9 @@ const store = new Vuex.Store({
     async signup({ dispatch }, form) {
       // sign user up
       const { user } = await fb.auth.createUserWithEmailAndPassword(form.email, form.password)
-
+      user.updateProfile({
+        displayName: form.name
+      })
       // create user object in userCollections
       await fb.usersCollection.doc(user.uid).set({
         name: form.name,

@@ -1,23 +1,27 @@
 <template>
   <v-app id="app">
     <v-navigation-drawer v-model="drawer" app style="max-width:75%"  v-if="showMenu()" >
+      <v-list>
+        
+
+        <v-list-item link @click="goTo('settings')">
+          <v-list-item-content>
+            <!-- user AVATAR & details-->
+            <v-list-item-title class="title">{{ user.displayName }}</v-list-item-title>
+            <v-list-item-subtitle>{{ user.email }}</v-list-item-subtitle>
+          </v-list-item-content>
+        </v-list-item>
+      </v-list>
       <v-list dense>
-        <v-list-item link>
-          <v-list-item-action>
-            <v-icon>mdi-home</v-icon>
-          </v-list-item-action>
-          <v-list-item-content>
-            <v-list-item-title>Home</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
-        <v-list-item link>
-          <v-list-item-action>
-            <v-icon>mdi-email</v-icon>
-          </v-list-item-action>
-          <v-list-item-content>
-            <v-list-item-title>Contact</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
+        <v-list-item v-for="item in items" :key="item.title" link>
+            <v-list-item-icon>
+              <v-icon>{{ item.icon }}</v-icon>
+            </v-list-item-icon>
+
+            <v-list-item-content>
+              <v-list-item-title @click="goTo(item.target)">{{ item.title }}</v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
         <v-divider></v-divider>
         <v-list-item link @click="logout()">
           <v-list-item-action>
@@ -59,31 +63,49 @@ import * as fb from "./firebase";
 
 export default {
   name: "App",
-
+  user: null,
   components: {},
   computed: {
     ...mapState(["userProfile"])
+   
   },
   props: {
     source: String
   },
   data: () => ({
-    drawer: null
+    drawer: null,
+    
+    items: [
+      { title: "Główna", icon: "mdi-view-dashboard", target: "Dashboard" },
+      { title: "Artykuły", icon: "mdi-help-box", target: "Reports" },
+      { title: "Tematy", icon: "mdi-image", target: "Items" },
+      { title: "Klienci", icon: "mdi-image", target: "Zones" },
+      { title: "Zamówienia", icon: "mdi-help-box", target: "Actions" },
+      { title: "Użytkownicy", icon: "mdi-image", target: "Users" },
+      
+    ]
   }),
+  
   methods: {
     logout() {
       this.$store.dispatch("logout");
     },
     showMenu() {
-      var user = fb.auth.currentUser
-     
+
+      var user = fb.auth.currentUser     
+      this.user = user
       if (user)
       {
         return true
       } else {
         return false
       }
+    },
+    goTo(target) {
+      console.log(target);
+
+      this.$router.push({ name: target });
     }
-  }
+   }
 };
 </script>
