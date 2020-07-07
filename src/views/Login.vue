@@ -3,48 +3,47 @@
     <PasswordReset v-if="showPasswordReset" @close="togglePasswordReset()"></PasswordReset>
     <section>
       <div class="col1">
-        <h1>Vuegram</h1>
-        <p>Welcome to the <a href="https://savvyapps.com/" target="_blank">Savvy Apps</a> sample social media web app powered by Vue.js and Firebase.
-          Build this project by checking out The Definitive Guide to Getting Started with Vue.js</p>
+        <h1>Panel Głospowiatu24.pl </h1>
+        <p>Witamy w <a href="https://glospowiatu24.pl/" target="_blank">GłosPowiatu24.pl</a> Aby uzysakć dostęp do panelu klienta lub narzędzi administracyjnych skontaktuj się z administartorem serwisu</p>
       </div>
       <div :class="{ 'signup-form': !showLoginForm }" class="col2">
         <form v-if="showLoginForm" @submit.prevent>
-          <h1>Welcome Back</h1>
+          <h1>Witamy</h1>
           <div>
             <label for="email1">Email</label>
-            <input v-model.trim="loginForm.email" type="text" placeholder="you@email.com" id="email1" />
+            <input v-model.trim="loginForm.email" type="text" placeholder="twój@email.com" id="email1" />
           </div>
           <div>
-            <label for="password1">Password</label>
+            <label for="password1">Hasło</label>
             <input v-model.trim="loginForm.password" type="password" placeholder="******" id="password1" />
           </div>
-          <button @click="login()" class="button">Log In</button>
+          <button @click="login()" class="button">Zaloguj się</button>
           <div class="extras">
-            <a @click="togglePasswordReset()">Forgot Password</a>
-            <a @click="toggleForm()">Create an Account</a>
+            <a @click="togglePasswordReset()">Reset hasła</a>
+            <a @click="toggleForm()">Nowe konto</a>
           </div>
         </form>
         <form v-else @submit.prevent>
-          <h1>Get Started</h1>
+          <h1>Nowe Konto</h1>
           <div>
-            <label for="name">Name</label>
-            <input v-model.trim="signupForm.name" type="text" placeholder="Savvy Apps" id="name" />
+            <label for="name">Imię i Nazwisko</label>
+            <input v-model.trim="signupForm.name" type="text" placeholder="Imię i Nazwisko" id="name" />
           </div>
           <div>
-            <label for="title">Title</label>
-            <input v-model.trim="signupForm.title" type="text" placeholder="Company" id="title" />
+            <label for="title">Rola</label>
+            <input v-model.trim="signupForm.title" type="text" placeholder="Rola" id="title" />
           </div>
           <div>
             <label for="email2">Email</label>
-            <input v-model.trim="signupForm.email" type="text" placeholder="you@email.com" id="email2" />
+            <input v-model.trim="signupForm.email" type="text" placeholder="twój@email.com" id="email2" />
           </div>
           <div>
-            <label for="password2">Password</label>
-            <input v-model.trim="signupForm.password" type="password" placeholder="min 6 characters" id="password2" />
+            <label for="password2">Hasło</label>
+            <input v-model.trim="signupForm.password" type="password" placeholder="min 6 znaków" id="password2" />
           </div>
-          <button @click="signup()" class="button">Sign Up</button>
+          <button @click="signup()" class="button">Załóż konto</button>
           <div class="extras">
-            <a @click="toggleForm()">Back to Log In</a>
+            <a @click="toggleForm()">Powrót do logowania</a>
           </div>
         </form>
       </div>
