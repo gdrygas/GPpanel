@@ -41,16 +41,10 @@
 
     <v-main>
       <v-container class="fill-height" fluid>
-        <v-row align="center" justify="center">
-          <v-col class="text-center">
-            <v-tooltip left></v-tooltip>
-          </v-col>
-        </v-row>
+        <router-view />
       </v-container>
     </v-main>
-    <v-container fluid>
-      <router-view />
-    </v-container>
+    
     <v-footer color="indigo" app>
       <span class="white--text">Głospowiatu24 &copy; {{ new Date().getFullYear() }} </span>
     </v-footer>
@@ -78,7 +72,7 @@ export default {
     items: [
       { title: "Główna", icon: "mdi-view-dashboard", target: "Dashboard" },
       { title: "Artykuły", icon: "mdi-help-box", target: "Reports" },
-      { title: "Tematy", icon: "mdi-image", target: "Items" },
+      { title: "Tematy", icon: "mdi-image", target: "subjects" },
       { title: "Klienci", icon: "mdi-image", target: "Zones" },
       { title: "Zamówienia", icon: "mdi-help-box", target: "Actions" },
       { title: "Użytkownicy", icon: "mdi-image", target: "Users" },
