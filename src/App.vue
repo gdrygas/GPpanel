@@ -70,12 +70,12 @@ export default {
     drawer: null,
     
     items: [
-      { title: "Główna", icon: "mdi-view-dashboard", target: "Dashboard" },
-      { title: "Artykuły", icon: "mdi-help-box", target: "Reports" },
+    //  { title: "Główna", icon: "mdi-view-dashboard", target: "Dashboard" },
+      { title: "Artykuły", icon: "mdi-help-box", target: "articles" },
       { title: "Tematy", icon: "mdi-image", target: "subjects" },
-      { title: "Klienci", icon: "mdi-image", target: "Zones" },
-      { title: "Zamówienia", icon: "mdi-help-box", target: "Actions" },
-      { title: "Użytkownicy", icon: "mdi-image", target: "Users" },
+    //  { title: "Klienci", icon: "mdi-image", target: "Zones" },
+    //  { title: "Zamówienia", icon: "mdi-help-box", target: "Actions" },
+    //  { title: "Użytkownicy", icon: "mdi-image", target: "Users" },
       
     ]
   }),

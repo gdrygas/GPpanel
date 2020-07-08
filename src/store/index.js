@@ -19,7 +19,7 @@ fb.postsCollection.orderBy('createdOn', 'desc').onSnapshot(snapshot => {
   store.commit('setPosts', postsArray)
 })
 
-fb.subjectsCollection.orderBy('createdOn', 'desc').onSnapshot(snapshot => {
+fb.subjectsCollection.orderBy('createdOn', 'asc').onSnapshot(snapshot => {
   let postsArray = []
 
   snapshot.forEach(doc => {
@@ -32,12 +32,25 @@ fb.subjectsCollection.orderBy('createdOn', 'desc').onSnapshot(snapshot => {
   store.commit('setSubjects', postsArray)
 })
 
+fb.articlesCollection.orderBy('createdOn', 'asc').onSnapshot(snapshot => {
+  let postsArray = []
+
+  snapshot.forEach(doc => {
+    let post = doc.data()
+    post.id = doc.id
+
+    postsArray.push(post)
+  })
+
+  store.commit('setArticles', postsArray)
+})
+
 const store = new Vuex.Store({
   state: {
     userProfile: {},
     posts: [],
-    subjects:[],
-
+    subjects: [],
+    articles: [],
   },
   mutations: {
     setUserProfile(state, val) {
@@ -49,8 +62,11 @@ const store = new Vuex.Store({
     setPosts(state, val) {
       state.posts = val
     },
-    setSubjects(state, val) { 
+    setSubjects(state, val) {
       state.subjects = val
+    },
+    setArticles(state, val) {
+      state.articles = val
     }
   },
   actions: {
@@ -110,20 +126,46 @@ const store = new Vuex.Store({
       })
     },
     async createSubject({ state, commit }, subject) {
-      // create post in firebase
-      console.log(subject)
+
+      var dateFormat = require('dateformat')
+      var now = new Date()
+      var myDate = dateFormat(now, "yyyy/mm/dd HH:MM")
       await fb.subjectsCollection.add({
-        createdOn: new Date(),
+        createdOn: now,
         content: subject.content,
         title: subject.title,
         type: subject.type,
         userId: fb.auth.currentUser.uid,
         userName: fb.auth.currentUser.displayName,
+        dispalyDate: myDate,
         comments: 0,
-        likes: 0        
+        likes: 0
       })
     },
-    async likePost ({ commit }, post) {
+    async createArticle({ state, commit }, article) {
+      // create post in firebase
+
+      var dateFormat = require('dateformat')
+      var now = new Date()
+      var myDate = dateFormat(now, "yyyy/mm/dd HH:MM")
+      fb.articlesCollection.add({
+        createdOn: now,
+        content: article.content,
+        title: article.title,       
+        userId: fb.auth.currentUser.uid,
+        userName: fb.auth.currentUser.displayName,
+        email:  fb.auth.currentUser.email,
+        dispalyDate: myDate,
+        comments: 0,
+        likes: 0,
+        status: article.status,
+        subjectId: article.subjectId
+      })
+      
+      
+      
+    },
+    async likePost({ commit }, post) {
       const userId = fb.auth.currentUser.uid
       const docId = `${userId}_${post.id}`
 
@@ -141,6 +183,12 @@ const store = new Vuex.Store({
       fb.postsCollection.doc(post.id).update({
         likes: post.likesCount + 1
       })
+    },
+    async updateSubject({ dispatch }, subject) {
+      
+      // update user object
+      const userRef = await fb.subjectsCollection.doc(subject.id).update(subject)
+
     },
     async updateProfile({ dispatch }, user) {
       const userId = fb.auth.currentUser.uid
