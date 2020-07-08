@@ -19,10 +19,25 @@ fb.postsCollection.orderBy('createdOn', 'desc').onSnapshot(snapshot => {
   store.commit('setPosts', postsArray)
 })
 
+fb.subjectsCollection.orderBy('createdOn', 'desc').onSnapshot(snapshot => {
+  let postsArray = []
+
+  snapshot.forEach(doc => {
+    let post = doc.data()
+    post.id = doc.id
+
+    postsArray.push(post)
+  })
+
+  store.commit('setSubjects', postsArray)
+})
+
 const store = new Vuex.Store({
   state: {
     userProfile: {},
-    posts: []
+    posts: [],
+    subjects:[],
+
   },
   mutations: {
     setUserProfile(state, val) {
@@ -33,6 +48,9 @@ const store = new Vuex.Store({
     },
     setPosts(state, val) {
       state.posts = val
+    },
+    setSubjects(state, val) { 
+      state.subjects = val
     }
   },
   actions: {
@@ -89,6 +107,20 @@ const store = new Vuex.Store({
         userName: state.userProfile.name,
         comments: 0,
         likes: 0
+      })
+    },
+    async createSubject({ state, commit }, subject) {
+      // create post in firebase
+      console.log(subject)
+      await fb.subjectsCollection.add({
+        createdOn: new Date(),
+        content: subject.content,
+        title: subject.title,
+        type: subject.type,
+        userId: fb.auth.currentUser.uid,
+        userName: fb.auth.currentUser.displayName,
+        comments: 0,
+        likes: 0        
       })
     },
     async likePost ({ commit }, post) {
