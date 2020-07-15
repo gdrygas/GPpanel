@@ -21,7 +21,7 @@
             <v-divider></v-divider>
           </v-card-text>
           <v-card-actions>
-               <a href = "https://script.google.com/a/macros/glospowiatu24.pl/s/AKfycbyojayBm6Xh0ooWdLQZKWUdGwclzlqBI0GlLFvLX3lRSY7ynfsy/exec?title=pierwszy">Otwórz artyku w Google Drive</a>
+               <a href = "">Otwórz artyku w Google Drive - funkcjonalność będzie dostępna od godziny 13</a>
           </v-card-actions>
         </v-card>
       </v-card>
