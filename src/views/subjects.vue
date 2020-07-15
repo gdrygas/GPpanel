@@ -129,11 +129,6 @@ export default {
     contentRules: [
       v => !!v || "Tytuł jest wymagany",
       v => v.length <= 2000 || "Treść musi mieć mniej niż 2000 znaków"
-    ],
-    email: "",
-    emailRules: [
-      v => !!v || "E-mail is required",
-      v => /.+@.+/.test(v) || "E-mail must be valid"
     ]
   }),
   methods: {

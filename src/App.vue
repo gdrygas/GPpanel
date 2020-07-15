@@ -1,9 +1,7 @@
 <template>
   <v-app id="app">
-    <v-navigation-drawer v-model="drawer" app style="max-width:75%"  v-if="showMenu()" >
+    <v-navigation-drawer v-model="drawer" app style="max-width:75%" v-if="showMenu()">
       <v-list>
-        
-
         <v-list-item link @click="goTo('settings')">
           <v-list-item-content>
             <!-- user AVATAR & details-->
@@ -14,14 +12,14 @@
       </v-list>
       <v-list dense>
         <v-list-item v-for="item in items" :key="item.title" link>
-            <v-list-item-icon>
-              <v-icon>{{ item.icon }}</v-icon>
-            </v-list-item-icon>
+          <v-list-item-icon>
+            <v-icon>{{ item.icon }}</v-icon>
+          </v-list-item-icon>
 
-            <v-list-item-content>
-              <v-list-item-title @click="goTo(item.target)">{{ item.title }}</v-list-item-title>
-            </v-list-item-content>
-          </v-list-item>
+          <v-list-item-content>
+            <v-list-item-title @click="goTo(item.target)">{{ item.title }}</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
         <v-divider></v-divider>
         <v-list-item link @click="logout()">
           <v-list-item-action>
@@ -34,72 +32,85 @@
       </v-list>
     </v-navigation-drawer>
 
-    <v-app-bar app color="indigo" dark  v-if="showMenu()">
+    <v-app-bar app color="indigo" dark v-if="showMenu()">
       <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
       <v-toolbar-title>Głospowiatu24.pl</v-toolbar-title>
+      <v-dialog v-model="dialog" width="500">
+        <template v-slot:activator="{ on, attrs }">          
+          <v-btn color="pink" dark absolute bottom left fab @click="dialog = false" v-bind="attrs" v-on="on" >
+              <v-icon>mdi-plus</v-icon>
+            </v-btn>
+        </template>
+        <newSubject v-if="currentRoute ='subjects'" />
+        
+      </v-dialog>
     </v-app-bar>
 
     <v-main>
       
-        <router-view />
-      
+      <router-view />
     </v-main>
-    
+
     <v-footer color="indigo" app>
-      <span class="white--text">Głospowiatu24 &copy; {{ new Date().getFullYear() }} </span>
+      <span class="white--text">Głospowiatu24 &copy; {{ new Date().getFullYear() }}</span>
     </v-footer>
   </v-app>
 </template>
 <script>
+
 import { mapState } from "vuex";
 import SiteNav from "@/components/SiteNav";
 import * as fb from "./firebase";
-
+import newSubject from "@/components/newSubject";
 export default {
   name: "App",
   user: null,
-  components: {},
+  components: { newSubject },
   computed: {
-    ...mapState(["userProfile"])
-   
+    ...mapState(["userProfile"]),
+    currentRoute : function() {
+      return this.$router.currentRoute.name
+    }
   },
   props: {
     source: String
   },
   data: () => ({
     drawer: null,
-    
+    valid: false,
+    dialog: false,
     items: [
-    //  { title: "Główna", icon: "mdi-view-dashboard", target: "Dashboard" },
+      //  { title: "Główna", icon: "mdi-view-dashboard", target: "Dashboard" },
       { title: "Artykuły", icon: "mdi-help-box", target: "articles" },
-      { title: "Tematy", icon: "mdi-image", target: "subjects" },
-    //  { title: "Klienci", icon: "mdi-image", target: "Zones" },
-    //  { title: "Zamówienia", icon: "mdi-help-box", target: "Actions" },
-    //  { title: "Użytkownicy", icon: "mdi-image", target: "Users" },
-      
+      { title: "Tematy", icon: "mdi-image", target: "subjects" }
+      //  { title: "Klienci", icon: "mdi-image", target: "Zones" },
+      //  { title: "Zamówienia", icon: "mdi-help-box", target: "Actions" },
+      //  { title: "Użytkownicy", icon: "mdi-image", target: "Users" },
     ]
   }),
-  
+
   methods: {
     logout() {
       this.$store.dispatch("logout");
     },
     showMenu() {
-
-      var user = fb.auth.currentUser     
-      this.user = user
-      if (user)
-      {
-        return true
+      var user = fb.auth.currentUser;
+      this.user = user;
+      if (user) {
+        return true;
       } else {
-        return false
+        return false;
       }
     },
     goTo(target) {
-      console.log(target);
-
       this.$router.push({ name: target });
+    },
+    dispatchAddAction() {
+      console.log(this.$router.currentRoute);
+      if (this.$router.currentRoute.name === "subjects") {
+        this.dialog = true;
+      }
     }
-   }
+  }
 };
 </script>
