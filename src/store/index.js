@@ -139,7 +139,9 @@ const store = new Vuex.Store({
         userName: fb.auth.currentUser.displayName,
         dispalyDate: myDate,
         comments: 0,
-        likes: 0
+        likes: 0,
+        due: subject.date,
+        priority: subject.priorytet
       })
     },
     async createArticle({ state, commit }, article) {

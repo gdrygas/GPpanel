@@ -35,13 +35,13 @@
     <v-app-bar app color="indigo" dark v-if="showMenu()">
       <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
       <v-toolbar-title>Głospowiatu24.pl</v-toolbar-title>
-      <v-dialog v-model="dialog" width="500">
+      <v-dialog v-model="dialog" width="500" >
         <template v-slot:activator="{ on, attrs }">          
-          <v-btn color="pink" dark absolute bottom left fab @click="dialog = false" v-bind="attrs" v-on="on" >
+          <v-btn color="pink" dark absolute bottom right fab @click="dialog = false" v-bind="attrs" v-on="on">
               <v-icon>mdi-plus</v-icon>
             </v-btn>
         </template>
-        <newSubject v-if="currentRoute ='subjects'" />
+        <newSubject v-if="currentRoute() =='subjects'" @clicked="closeNewSubject()" />
         
       </v-dialog>
     </v-app-bar>
@@ -67,10 +67,8 @@ export default {
   user: null,
   components: { newSubject },
   computed: {
-    ...mapState(["userProfile"]),
-    currentRoute : function() {
-      return this.$router.currentRoute.name
-    }
+    ...mapState(["userProfile"])
+    
   },
   props: {
     source: String
@@ -90,6 +88,10 @@ export default {
   }),
 
   methods: {
+    currentRoute: function(){
+   
+       return this.$router.currentRoute.name
+    },
     logout() {
       this.$store.dispatch("logout");
     },
@@ -105,8 +107,11 @@ export default {
     goTo(target) {
       this.$router.push({ name: target });
     },
+    closeNewSubject() {
+        this.dialog = false
+    },
     dispatchAddAction() {
-      console.log(this.$router.currentRoute);
+     
       if (this.$router.currentRoute.name === "subjects") {
         this.dialog = true;
       }

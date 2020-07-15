@@ -1,6 +1,6 @@
 <template>
   <div fill-height>
-    <div v-for="article in articles" :key="article.title" >
+    <div v-for="article in articles" :key="article.id" >
       <v-card v-if="article.email == currentUser ">
         <v-card class="mx-auto" max-width="85%" style="margin:5px">
           <v-card-text>
