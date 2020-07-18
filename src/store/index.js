@@ -55,6 +55,7 @@ const store = new Vuex.Store({
   mutations: {
     setUserProfile(state, val) {
       state.userProfile = val
+      
     },
     setPerformingRequest(state, val) {
       state.performingRequest = val
@@ -94,10 +95,14 @@ const store = new Vuex.Store({
     },
     async fetchUserProfile({ commit }, user) {
       // fetch user profile
-      const userProfile = await fb.usersCollection.doc(user.uid).get()
-
+      var userProfile = await fb.usersCollection.doc(user.uid).get()
+      var tmpProfile = userProfile.data()
+      tmpProfile.uid = user.uid
+      console.log(tmpProfile)
+      
+      
       // set user profile in state
-      commit('setUserProfile', userProfile.data())
+      commit('setUserProfile', tmpProfile)
 
       // change route to dashboard
       if (router.currentRoute.path === '/login') {

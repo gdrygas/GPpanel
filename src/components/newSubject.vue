@@ -1,7 +1,7 @@
 <template>
-  <div>
-    <v-card>
-      <v-card-title class="headline primary " dense >Nowy Temat</v-card-title>
+  <div  >
+    <v-card  light> 
+      <v-card-title class="headline primary " dense color="indigo" dark>Nowy Temat</v-card-title>
 
       <v-card-text>
         <v-form>

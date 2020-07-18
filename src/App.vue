@@ -35,29 +35,42 @@
     <v-app-bar app color="indigo" dark v-if="showMenu()">
       <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
       <v-toolbar-title>Głospowiatu24.pl</v-toolbar-title>
-      <v-dialog v-model="dialog" width="500" >
-        <template v-slot:activator="{ on, attrs }">          
-          <v-btn color="pink" dark absolute bottom right fab @click="dialog = false" v-bind="attrs" v-on="on">
-              <v-icon>mdi-plus</v-icon>
-            </v-btn>
-        </template>
-        <newSubject v-if="currentRoute() =='subjects'" @clicked="closeNewSubject()" />
-        
-      </v-dialog>
+     
+      <v-spacer></v-spacer>
+     
+      
+      
     </v-app-bar>
 
     <v-main>
-      
       <router-view />
     </v-main>
 
     <v-footer color="indigo" app>
       <span class="white--text">Głospowiatu24 &copy; {{ new Date().getFullYear() }}</span>
+      <v-dialog v-model="dialog" width="85%" >
+        <template v-slot:activator="{ on, attrs }">
+          <v-btn
+            color="red"
+            dark
+            absolute
+            top
+            right
+            fab
+            @click="dialog = false"
+            v-bind="attrs"
+            v-on="on"
+          >
+            <v-icon>mdi-plus</v-icon>
+          </v-btn>
+        </template>
+
+        <newSubject v-if="currentRoute() =='subjects'" @clicked="closeNewSubject()" />
+      </v-dialog>
     </v-footer>
   </v-app>
 </template>
 <script>
-
 import { mapState } from "vuex";
 import SiteNav from "@/components/SiteNav";
 import * as fb from "./firebase";
@@ -68,7 +81,6 @@ export default {
   components: { newSubject },
   computed: {
     ...mapState(["userProfile"])
-    
   },
   props: {
     source: String
@@ -88,9 +100,8 @@ export default {
   }),
 
   methods: {
-    currentRoute: function(){
-   
-       return this.$router.currentRoute.name
+    currentRoute: function() {
+      return this.$router.currentRoute.name;
     },
     logout() {
       this.$store.dispatch("logout");
@@ -108,10 +119,9 @@ export default {
       this.$router.push({ name: target });
     },
     closeNewSubject() {
-        this.dialog = false
+      this.dialog = false;
     },
     dispatchAddAction() {
-     
       if (this.$router.currentRoute.name === "subjects") {
         this.dialog = true;
       }
